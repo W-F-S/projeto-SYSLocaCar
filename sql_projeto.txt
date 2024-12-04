@@ -1,0 +1,74 @@
+-- Tabela Categoria
+CREATE TABLE Categoria (
+    id BIGSERIAL PRIMARY KEY,
+    tipo CHAR(1),
+    valorLocacao FLOAT,
+    modelos TEXT
+);
+
+-- Tabela Marca
+CREATE TABLE Marca (
+    id BIGSERIAL PRIMARY KEY,
+    nome VARCHAR(255),
+    modelos TEXT
+);
+
+-- Tabela Modelo
+CREATE TABLE Modelo (
+    id BIGSERIAL PRIMARY KEY,
+    nome VARCHAR(255),
+    anoModelo DATE,
+    qtModelo INT,
+    veiculos TEXT
+);
+
+-- Tabela Veiculo
+CREATE TABLE Veiculo (
+    id BIGSERIAL PRIMARY KEY,
+    placa VARCHAR(20),
+    chassi VARCHAR(50),
+    anoFabricacao DATE,
+    cor VARCHAR(50),
+    marca VARCHAR(255),
+    modelo VARCHAR(255),
+    status VARCHAR(50),
+    manutencao TEXT
+);
+
+-- Tabela Manutencao
+CREATE TABLE Manutencao (
+    id BIGSERIAL PRIMARY KEY,
+    descricao TEXT,
+    dataManutencao DATE,
+    valorManutencao FLOAT
+);
+
+-- Tabela ContratoLocacao
+CREATE TABLE ContratoLocacao (
+    id BIGSERIAL PRIMARY KEY,
+    dataLocacao DATE,
+    dataDevolucao DATE,
+    valorCaucao FLOAT,
+    valorTotal FLOAT,
+    status VARCHAR(50),
+    veiculos TEXT,
+    ocorrencias TEXT
+);
+
+-- Tabela Ocorrencia
+CREATE TABLE Ocorrencia (
+    id BIGSERIAL PRIMARY KEY,
+    descricao TEXT,
+    dataOcorrencia DATE,
+    valorOcorrencia FLOAT
+);
+
+-- Tabela Pagamento
+CREATE TABLE Pagamento (
+    id BIGSERIAL PRIMARY KEY,
+    data DATE,
+    valorPago FLOAT,
+    formaPagamento VARCHAR(50),
+    contrato VARCHAR(255)
+);
+

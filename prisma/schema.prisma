@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,4 +5,70 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model categoria {
+  id           BigInt  @id @default(autoincrement())
+  tipo         String? @db.Char(1)
+  valorlocacao Float?
+  modelos      String?
+}
+
+model contratolocacao {
+  id            BigInt    @id @default(autoincrement())
+  datalocacao   DateTime? @db.Date
+  datadevolucao DateTime? @db.Date
+  valorcaucao   Float?
+  valortotal    Float?
+  status        String?   @db.VarChar(50)
+  veiculos      String?
+  ocorrencias   String?
+}
+
+model manutencao {
+  id              BigInt    @id @default(autoincrement())
+  descricao       String?
+  datamanutencao  DateTime? @db.Date
+  valormanutencao Float?
+}
+
+model marca {
+  id      BigInt  @id @default(autoincrement())
+  nome    String? @db.VarChar(255)
+  modelos String?
+}
+
+model modelo {
+  id        BigInt    @id @default(autoincrement())
+  nome      String?   @db.VarChar(255)
+  anomodelo DateTime? @db.Date
+  qtmodelo  Int?
+  veiculos  String?
+}
+
+model ocorrencia {
+  id              BigInt    @id @default(autoincrement())
+  descricao       String?
+  dataocorrencia  DateTime? @db.Date
+  valorocorrencia Float?
+}
+
+model pagamento {
+  id             BigInt    @id @default(autoincrement())
+  data           DateTime? @db.Date
+  valorpago      Float?
+  formapagamento String?   @db.VarChar(50)
+  contrato       String?   @db.VarChar(255)
+}
+
+model veiculo {
+  id            BigInt    @id @default(autoincrement())
+  placa         String?   @db.VarChar(20)
+  chassi        String?   @db.VarChar(50)
+  anofabricacao DateTime? @db.Date
+  cor           String?   @db.VarChar(50)
+  marca         String?   @db.VarChar(255)
+  modelo        String?   @db.VarChar(255)
+  status        String?   @db.VarChar(50)
+  manutencao    String?
 }
