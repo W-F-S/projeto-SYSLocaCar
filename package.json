@@ -2,6 +2,7 @@
   "name": "projeto-loccar",
   "version": "1.0.0",
   "main": "index.js",
+  "type":"module",
   "scripts": {
     "dev": "nodemon",
     "start": "ts-node app.ts"
