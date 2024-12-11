@@ -1,29 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+
+import HomePage from './HomePage';
+import FormPage from './pages/FormPage';
+
+import BasicButton from './components/BasicButton';
 
 function App() {
-    const [data, setData] = useState('');
-
-    useEffect(() => {
-        // Fetch data from the Express API
-        fetch('http://localhost:9090/')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.text();
-            })
-            .then(data => setData(data))
-            .catch(error => console.error('Error fetching data:', error));
-    }, []);
-
     return (
-        <div style={{ textAlign: 'center', padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-            <h1>Welcome to My App</h1>
-            <h2>Raw Data from the API:</h2>
-            <pre>{data}</pre>
-        </div>
+        <Router>
+            <div style={{ textAlign: 'center', padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+                <h1>Welcome to My App</h1>
+                <nav style={{ marginBottom: '20px' }}>
+                    <Link to="/" style={{ margin: '0 10px' }}>Home</Link>
+                    <Link to="/form" style={{ margin: '0 10px' }}>Form</Link>
+                </nav>
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/form" element={<FormPage />} />
+                </Routes>
+            </div>
+        </Router>
     );
-    
 }
 
 export default App;

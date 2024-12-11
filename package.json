@@ -11,7 +11,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "start": "npm-run-all --parallel server client",
-    "server": "ts-node src/server/app.ts",
+    "server": "npx tsx src/server/app.ts",
     "client": "react-scripts start --prefix client"
   },
   "eslintConfig": {
@@ -67,6 +67,7 @@
     "prisma": "^5.22.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^7.0.2",
     "react-scripts": "5.0.1",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
