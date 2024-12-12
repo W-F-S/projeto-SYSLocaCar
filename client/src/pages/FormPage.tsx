@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+import BasicButton from '../components/BasicButton';
+
+
 const FormPage: React.FC = () => {
     const [formData, setFormData] = useState({ name: '', email: '' });
 
@@ -11,10 +14,10 @@ const FormPage: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault(); // Prevent page reload on form submission
         try {
-            const response = await fetch('http://localhost:9090/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
+            const response = await fetch('http://localhost:9090/hello', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+                //body: JSON.stringify(formData),
             });
 
             if (!response.ok) {
@@ -50,7 +53,7 @@ const FormPage: React.FC = () => {
                 <div style={{ marginBottom: '10px' }}>
                     <label htmlFor="email">Email:</label>
                     <input
-                        type="email"
+                        type="name"
                         id="email"
                         name="email"
                         value={formData.email}

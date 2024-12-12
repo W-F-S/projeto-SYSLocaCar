@@ -23,19 +23,6 @@
     "client/src/**/*", /* Include all TypeScript/JavaScript files in the lixo/src folder. */
     "server/**/*" /* Include all TypeScript files in the server folder. */
   ],
-  "files": [
-    "core.ts",
-    "sys.ts",
-    "types.ts",
-    "scanner.ts",
-    "parser.ts",
-    "utilities.ts",
-    "binder.ts",
-    "checker.ts",
-    "*.jpeg",
-    "*.png",
-    "*.jpg"
-  ],
   "exclude": [
     "node_modules", /* Exclude dependencies from compilation. */
     "dist" /* Exclude output files from compilation. */
