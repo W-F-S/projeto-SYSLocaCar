@@ -16,7 +16,7 @@ function HomePage() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        background: 'linear-gradient(135deg, #4c6ef5, #b197fc)', // Purple-ish gradient
+        background: 'linear-gradient(135deg, #4c6ef5, #b197fc)',
         fontFamily: 'Arial, sans-serif',
         color: '#fff'
     };
@@ -36,15 +36,8 @@ function HomePage() {
         justifyContent: 'space-between', // Alinha elementos nos extremos
         alignItems: 'center',
         width: '100%', // Garante que o menu ocupe toda a largura
-        padding: '0 20px', // Espaço interno para o alinhamento
     };
 
-
-
-    const otherLinksStyle = {
-        display: 'flex',
-        gap: '20px', // Espaço entre os outros links
-    };
 
 
     const linkStyle = {
@@ -123,6 +116,7 @@ function HomePage() {
                     Sistema de cadastro de carros
                 </h1>
                 <nav style={navStyle}>
+                    <div></div>
                     <BasicButton to="/login" text="Login"></BasicButton>
                 </nav>
             </header>
@@ -132,7 +126,7 @@ function HomePage() {
                 </div>
                 <div style={ctaStyle}>
                     <BasicButton
-                        label="Contato"
+                        text="Contato"
                         onClick={() => alert('Contact form coming soon!')}
                         style={{
                             background: '#4c6ef5',
@@ -140,7 +134,6 @@ function HomePage() {
 
                         }}
                     />
-                    Contact
                 </div>
             </div>
         </div>

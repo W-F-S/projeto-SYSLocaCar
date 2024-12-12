@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, Image } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 
 const DynamicCarousel = () => {
     const [cars, setCars] = useState([]);
-
+    const navigate = useNavigate(); // Hook for navigation
     useEffect(() => {
         const fetchCars = async () => {
             try {
@@ -26,6 +27,13 @@ const DynamicCarousel = () => {
         fetchCars();
     }, []);
 
+
+    const handleImageClick = (carId) => {
+        // Redirect to a details page or any other route, passing the carId
+        navigate(`/locacao?carId=${carId}`);
+    };
+
+
     return (
         <CarouselProvider
             naturalSlideWidth={100}
@@ -35,7 +43,10 @@ const DynamicCarousel = () => {
             <Slider>
                 {cars.map((processedData, index) => (
                     <Slide index={index} key={index}>
-                        <Image src={processedData.imageUrl} hasMasterSpinner={true} />
+                        <Image 
+                            src={processedData.imageUrl} 
+                            hasMasterSpinner={true} 
+                            onClick={() => handleImageClick(processedData.id)} />
                     </Slide>
                 ))}
             </Slider>

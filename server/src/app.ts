@@ -60,6 +60,23 @@ app.get('/avalCars', async (req: Request, res: Response) => {
     }
 });
 
+ app.post('/getCar', async(req: Request, res: Response) => {
+     try {
+         const {carId} = req.body;
+
+         const availableCars = await prisma.veiculo.findUnique({
+             where: {
+                 id: carId,
+             },
+         });
+         // Return the available cars
+         res.status(200).json({ availableCars });
+     } catch (error) {
+         console.error('Error fetching car information:', error);
+         res.status(500).json({ error: 'Internal server error' });
+     }   
+ });
+
 
 
 app.post('/newUser', (req: Request, res: Response)=> {

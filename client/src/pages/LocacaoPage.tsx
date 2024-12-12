@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
-function ProcessoDeLocacao() {
-    const [carInfo, setCarInfo] = useState({
-        placa: 'ABC-1234',
-        chassi: '1HGCM82633A123456',
-        ano: '2020',
-        cor: 'Preto',
-        marca: 'Toyota',
-        modelo: 'Corolla',
-        status: 'Disponível',
-    });
+
+function LocacaoPage() {
+    const [serachParams] = useSearchParams();
+    const carId = serachParams.get('carId');
+    const [carInfo, setCarInfo] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const containerStyle = {
         display: 'flex',
@@ -57,21 +55,63 @@ function ProcessoDeLocacao() {
         fontWeight: 'bold',
     };
 
+
+    useEffect(() => {
+        const fetchCarDetails = async () => {
+            try {
+
+                const response = await fetch('http://localhost:9090/getCar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ carId: carId }), // Send car ID in the POST request body
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                setCarInfo(data.availableCars); // Set the car details in state
+
+                console.log(data);
+
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCarDetails();
+    }, [carId]);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setCarInfo({ ...carInfo, [name]: value });
+        setCarInfo((prevInfo) => ({
+            ...prevInfo,
+            [name]: value, // Update the specific field in carInfo
+        }));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        alert(`Informações salvas para o carro: ${carInfo.modelo}`);
     };
 
     return (
         <div style={containerStyle}>
             {/* Left Side: Image */}
             <img
-                src="https://via.placeholder.com/400x300?text=Carro"
+                src={`/assets/${carInfo.imagemPath}`}
                 alt="Carro"
                 style={imageStyle}
             />
@@ -79,62 +119,89 @@ function ProcessoDeLocacao() {
             {/* Right Side: Form */}
             <form style={formStyle} onSubmit={handleSubmit}>
                 <h2>Informações do Veículo</h2>
-                <input
-                    type="text"
-                    name="placa"
-                    placeholder="Placa"
-                    value={carInfo.placa}
-                    onChange={handleInputChange}
-                    style={inputStyle}
-                />
-                <input
-                    type="text"
-                    name="chassi"
-                    placeholder="Chassi"
-                    value={carInfo.chassi}
-                    onChange={handleInputChange}
-                    style={inputStyle}
-                />
-                <input
-                    type="text"
-                    name="ano"
-                    placeholder="Ano de Fabricação"
-                    value={carInfo.ano}
-                    onChange={handleInputChange}
-                    style={inputStyle}
-                />
-                <input
-                    type="text"
-                    name="cor"
-                    placeholder="Cor"
-                    value={carInfo.cor}
-                    onChange={handleInputChange}
-                    style={inputStyle}
-                />
-                <input
-                    type="text"
-                    name="marca"
-                    placeholder="Marca"
-                    value={carInfo.marca}
-                    onChange={handleInputChange}
-                    style={inputStyle}
-                />
-                <input
-                    type="text"
-                    name="modelo"
-                    placeholder="Modelo"
-                    value={carInfo.modelo}
-                    onChange={handleInputChange}
-                    style={inputStyle}
-                />
-                <input
-                    type="text"
-                    name="status"
-                    placeholder="Status"
-                    value={carInfo.status}
-                    onChange={handleInputChange}
-                    style={inputStyle}
-                />
+                <label>
+                    Placa:
+                    <input
+                        type="text"
+                        name="placa"
+                        placeholder="Placa"
+                        value={carInfo.placa || ''}
+                        onChange={handleInputChange}
+                        style={inputStyle}
+                    />
+                </label>
+
+                <label>
+                    Chassi:
+                    <input
+                        type="text"
+                        name="chassi"
+                        placeholder="Chassi"
+                        value={carInfo.chassi || ''}
+                        onChange={handleInputChange}
+                        style={inputStyle}
+                    />
+                </label>
+
+                <label>
+                    Ano de Fabricação:
+                    <input
+                        type="text"
+                        name="ano"
+                        placeholder="Ano de Fabricação"
+                        value={carInfo.ano || ''}
+                        onChange={handleInputChange}
+                        style={inputStyle}
+                    />
+                </label>
+
+                <label>
+                    Cor:
+                    <input
+                        type="text"
+                        name="cor"
+                        placeholder="Cor"
+                        value={carInfo.cor || ''}
+                        onChange={handleInputChange}
+                        style={inputStyle}
+                    />
+                </label>
+
+                <label>
+                    Marca:
+                    <input
+                        type="text"
+                        name="marca"
+                        placeholder="Marca"
+                        value={carInfo.marca || ''}
+                        onChange={handleInputChange}
+                        style={inputStyle}
+                    />
+                </label>
+
+                <label>
+                    Modelo:
+                    <input
+                        type="text"
+                        name="modelo"
+                        placeholder="Modelo"
+                        value={carInfo.modelo || ''}
+                        onChange={handleInputChange}
+                        style={inputStyle}
+                    />
+                </label>
+
+                <label>
+                    Status:
+                    <input
+                        type="text"
+                        name="status"
+                        placeholder="Status"
+                        value={carInfo.status || ''}
+                        onChange={handleInputChange}
+                        style={inputStyle}
+                    />
+                </label>
                 <button type="submit" style={buttonStyle}>
                     Salvar Informações
                 </button>
@@ -143,4 +210,4 @@ function ProcessoDeLocacao() {
     );
 }
 
-export default ProcessoDeLocacao;
+export default LocacaoPage;
