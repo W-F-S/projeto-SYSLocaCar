@@ -1,7 +1,22 @@
 import React, { useState } from 'react';
 
+import BasicButton from '../components/BasicButton';
+import BasicSubmitButton from '../components/BasicSubmitButton';
+
 const SigninPage: React.FC = () => {
     const [formData, setFormData] = useState({ name: '', email: '' });
+
+    const appStyle = {
+        minHeight: '100vh',
+        margin: '0',
+        padding: '0',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        background: 'linear-gradient(135deg, #4c6ef5, #b197fc)', // Purple-ish gradient
+        fontFamily: 'Arial, sans-serif',
+        color: '#fff'
+    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -11,10 +26,11 @@ const SigninPage: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault(); // Prevent page reload on form submission
         try {
-            const response = await fetch('http://localhost:9090/hello', {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' }
-                //body: JSON.stringify(formData),
+            console.log("iniciando post;");
+            const response = await fetch('http://localhost:9090/newUser', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
             });
 
             if (!response.ok) {
@@ -31,7 +47,7 @@ const SigninPage: React.FC = () => {
     };
 
     return (
-        <div style={{ textAlign: 'center', padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+        <div style={appStyle}>
             <h2>Submit Your Details</h2>
             <form onSubmit={handleSubmit}>
                 <div style={{ marginBottom: '10px' }}>
@@ -47,6 +63,7 @@ const SigninPage: React.FC = () => {
                         required
                     />
                 </div>
+
                 <div style={{ marginBottom: '10px' }}>
                     <label htmlFor="email">Email:</label>
                     <input
@@ -60,9 +77,13 @@ const SigninPage: React.FC = () => {
                         required
                     />
                 </div>
-                <button type="submit" style={{ padding: '10px 20px', cursor: 'pointer' }}>
-                    Submit
-                </button>
+                <input type="radio" id="tipoAdmim" name="fav_language" value="JavaScript"/>
+                <label for="tipoAdmim">Admin</label>
+                <input type="radio" id="tipoUser" name="fav_language" value="JavaScript" selected />
+                <label for="tipoUser">User</label>
+                <br/>
+                <BasicSubmitButton text="Cadastrar" onClick={handleSubmit} to="/login">
+                </BasicSubmitButton>
             </form>
         </div>
     );

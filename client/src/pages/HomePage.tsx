@@ -123,16 +123,8 @@ function HomePage() {
                     Sistema de cadastro de carros
                 </h1>
                 <nav style={navStyle}>
-                    {/* Other links aligned to the center */}
-                    <div style={otherLinksStyle}>
-                        <NavLink to="/">Catálogo</NavLink>
-                    </div>
-                    {/* Login button aligned to the left */}
                     <BasicButton to="/login" text="Login"></BasicButton>
-
-
                 </nav>
-
             </header>
             <div style={mainContentStyle}>
                 <div style={carousel_div}>
@@ -140,7 +132,7 @@ function HomePage() {
                 </div>
                 <div style={ctaStyle}>
                     <BasicButton
-                        label="Contact Us"
+                        label="Contato"
                         onClick={() => alert('Contact form coming soon!')}
                         style={{
                             background: '#4c6ef5',

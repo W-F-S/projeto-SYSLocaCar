@@ -71,4 +71,5 @@ model veiculo {
   modelo        String?   @db.VarChar(255)
   status        String?   @db.VarChar(50)
   manutencao    String?
+  imagemPath    String? 
 }

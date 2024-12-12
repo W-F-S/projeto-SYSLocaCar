@@ -6,16 +6,18 @@ import BasicButton from '../components/BasicButton';
 function LoginPage() {
     const [formData, setFormData] = useState({ username: '', password: '' });
 
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-        // Handle login logic here
-        alert(`Logging in with: ${formData.username}`);
+        e.preventDefault(); // Prevent default form submission
+        console.log('Form data:', formData);
+        // Add your login logic here if needed
     };
+
 
     const pageStyle = {
         display: 'flex',
@@ -74,7 +76,7 @@ function LoginPage() {
                 />
                 {/* Replace the button with the BasicButton */}
                 <BasicButton text="Login" to="/" />
-                <BasicButton text="Sign-in" to="/" />
+                <BasicButton text="Sign-in" to="/singin" />
             </form>
         </div>
     );

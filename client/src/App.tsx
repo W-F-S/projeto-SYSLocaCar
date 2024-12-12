@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import FormPage from './pages/FormPage';
 import LoginPage from './pages/LoginPage';
 import SigninPage from './pages/SigninPage';
+import ProcessoDeLocacao from './pages/LocacaoPage';
 
 import Carousel from './components/Carousel';
 import BasicButton from './components/BasicButton';
@@ -106,14 +107,15 @@ function App() {
         justifyContent: 'center'
     };
 
+
     return (
         <Router>
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/form" element={<FormPage />} />
                 <Route path="/login" element={<LoginPage />} />
-                <Route path="/signin" element={<SigninPage />} />
-
+                <Route path="/singin" element={<SigninPage />} />
+                <Route path="/processo-de-locacao" element={<ProcessoDeLocacao />} />
             </Routes>
         </Router>
     );
