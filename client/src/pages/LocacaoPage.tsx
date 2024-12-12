@@ -55,7 +55,6 @@ function LocacaoPage() {
         fontWeight: 'bold',
     };
 
-
     useEffect(() => {
         const fetchCarDetails = async () => {
             try {
