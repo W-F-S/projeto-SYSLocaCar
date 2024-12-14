@@ -6,15 +6,9 @@
   "homepage": "./",
   "proxy": "http://localhost:9090/",
   "scripts": {
-    "dev": "nodemon src/server/app.ts",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "start": "npm-run-all --parallel server client",
+
     "server": "tsx server/src/app.ts",
     "client": "cd client && react-scripts start",
-    "build": "npm run build:client && npm run build:server",
-    "build:client": "cd client && react-scripts build",
-    "build:server": "tsc --project tsconfig.json"
   },
   "eslintConfig": {
     "extends": [
