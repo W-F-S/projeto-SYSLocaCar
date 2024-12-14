@@ -109,6 +109,45 @@ function LocacaoPage() {
         fontWeight: 'bold',
     };
 
+    useEffect(() => {
+        const fetchCarDetails = async () => {
+            try {
+
+                const response = await fetch('http://localhost:9090/getCar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ carId: carId }), // Send car ID in the POST request body
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                setCarInfo(data.availableCars); // Set the car details in state
+
+                console.log(data);
+
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCarDetails();
+    }, [carId]);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setCarInfo((prevInfo) => ({
@@ -119,7 +158,6 @@ function LocacaoPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         setLoading(true);
         try {
             const url = isEditing
@@ -276,6 +314,7 @@ function LocacaoPage() {
                     )}
                 </form>
             </div>
+
         </div>
     );
 }

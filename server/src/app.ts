@@ -60,6 +60,7 @@ app.get('/avalCars', async (req: Request, res: Response) => {
     }
 });
 
+
 app.get('/getCar', async (req: Request, res: Response) => {
     try {
         // Get the carId from the query parameters
