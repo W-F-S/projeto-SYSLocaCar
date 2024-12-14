@@ -1,0 +1,5 @@
+
+> projeto-loccar@1.0.0 server
+> tsx server/src/app.ts
+
+Server is running on http://localhost:9090

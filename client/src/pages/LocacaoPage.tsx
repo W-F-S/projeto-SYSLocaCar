@@ -1,15 +1,68 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
-function ProcessoDeLocacao() {
+function LocacaoPage() {
+    const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
+
+    const carId = searchParams.get('carId');
     const [carInfo, setCarInfo] = useState({
-        placa: 'ABC-1234',
-        chassi: '1HGCM82633A123456',
-        ano: '2020',
-        cor: 'Preto',
-        marca: 'Toyota',
-        modelo: 'Corolla',
-        status: 'Disponível',
+        placa: '',
+        chassi: '',
+        anofabricacao: '',
+        cor: '',
+        marca: '',
+        modelo: '',
+        status: '',
+        imagemPath: 'car1.jpeg',
     });
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    let isEditing = Boolean(carId);
+
+    useEffect(() => {
+        if (isEditing) {
+            const fetchCarDetails = async () => {
+                setLoading(true);
+                try {
+                    const response = await fetch(`http://localhost:9090/getCar?carId=${carId}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    setCarInfo(data.availableCar || {}); // Set car details or empty object
+                } catch (err) {
+                    setError(err.message);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            fetchCarDetails();
+        }
+    }, [carId, isEditing]);
+
+    const appStyle = {
+        background: 'linear-gradient(135deg, #4c6ef5, #b197fc)',
+        fontFamily: 'Arial, sans-serif',
+        color: '#fff'
+    };
+
+    const headerStyle = {
+        padding: '20px',
+        textAlign: 'center',
+        width: '100%',
+        background: 'rgba(0,0,0,0.2)', // semi-transparent background
+        backdropFilter: 'blur(10px)',
+        boxShadow: '0 2px 5px rgba(0,0,0,0.3)',
+    };
 
     const containerStyle = {
         display: 'flex',
@@ -17,14 +70,13 @@ function ProcessoDeLocacao() {
         justifyContent: 'center',
         height: '100vh',
         fontFamily: 'Arial, sans-serif',
-        background: 'linear-gradient(135deg, #f3f4f7, #dde1e7)',
         color: '#333',
         padding: '20px',
     };
 
     const imageStyle = {
         flex: 1,
-        maxWidth: '400px',
+        maxWidth: '700px',
         height: 'auto',
         borderRadius: '10px',
         boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
@@ -33,10 +85,10 @@ function ProcessoDeLocacao() {
     const formStyle = {
         flex: 1,
         background: '#fff',
-        padding: '20px',
+        padding: '20px 40px 20px 20px',
         borderRadius: '10px',
         boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
-        marginLeft: '20px',
+        margin: '20px',
     };
 
     const inputStyle = {
@@ -59,88 +111,173 @@ function ProcessoDeLocacao() {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setCarInfo({ ...carInfo, [name]: value });
+        setCarInfo((prevInfo) => ({
+            ...prevInfo,
+            [name]: value,
+        }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        alert(`Informações salvas para o carro: ${carInfo.modelo}`);
+
+        setLoading(true);
+        try {
+            const url = isEditing
+                ? 'http://localhost:9090/updateCar' 
+                : 'http://localhost:9090/createCar';
+
+            const method = isEditing ? 'PUT' : 'POST';
+
+            const response = await fetch(url, {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ...(isEditing && { carId }), // Include carId only for editing
+                    ...carInfo,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            alert(isEditing ? 'Car updated successfully!' : 'Car created successfully!');
+            navigate('/'); // Redirect to the main page or another page
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
     };
+
+    const handleDelete = async () => {
+        if (!isEditing) return;
+
+        setLoading(true);
+        try {
+            const response = await fetch('http://localhost:9090/deleteCar', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ carId }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete the car');
+            }
+
+            alert('Car deleted successfully');
+            navigate('/');
+        } catch (err) {
+            console.error('Error deleting car:', err);
+            alert('Failed to delete the car');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
 
     return (
-        <div style={containerStyle}>
-            {/* Left Side: Image */}
-            <img
-                src="https://via.placeholder.com/400x300?text=Carro"
-                alt="Carro"
-                style={imageStyle}
-            />
 
-            {/* Right Side: Form */}
-            <form style={formStyle} onSubmit={handleSubmit}>
-                <h2>Informações do Veículo</h2>
-                <input
-                    type="text"
-                    name="placa"
-                    placeholder="Placa"
-                    value={carInfo.placa}
-                    onChange={handleInputChange}
-                    style={inputStyle}
+        <div style={appStyle}>
+
+            <header  style={headerStyle}>
+                <h2 style={{textAlign: 'center'}}>{isEditing ? 'Editando ' + carInfo.marca + ' ' + carInfo.modelo : 'Novo carro'}</h2>
+            </header>
+            
+            <div style={containerStyle}>
+                <img
+                    src={`/assets/${carInfo.imagemPath}`}
+                    alt="Carro"
+                    style={imageStyle}
                 />
-                <input
-                    type="text"
-                    name="chassi"
-                    placeholder="Chassi"
-                    value={carInfo.chassi}
-                    onChange={handleInputChange}
-                    style={inputStyle}
-                />
-                <input
-                    type="text"
-                    name="ano"
-                    placeholder="Ano de Fabricação"
-                    value={carInfo.ano}
-                    onChange={handleInputChange}
-                    style={inputStyle}
-                />
-                <input
-                    type="text"
-                    name="cor"
-                    placeholder="Cor"
-                    value={carInfo.cor}
-                    onChange={handleInputChange}
-                    style={inputStyle}
-                />
-                <input
-                    type="text"
-                    name="marca"
-                    placeholder="Marca"
-                    value={carInfo.marca}
-                    onChange={handleInputChange}
-                    style={inputStyle}
-                />
-                <input
-                    type="text"
-                    name="modelo"
-                    placeholder="Modelo"
-                    value={carInfo.modelo}
-                    onChange={handleInputChange}
-                    style={inputStyle}
-                />
-                <input
-                    type="text"
-                    name="status"
-                    placeholder="Status"
-                    value={carInfo.status}
-                    onChange={handleInputChange}
-                    style={inputStyle}
-                />
-                <button type="submit" style={buttonStyle}>
-                    Salvar Informações
-                </button>
-            </form>
+                <form style={formStyle} onSubmit={handleSubmit}>
+                    <label>
+                        Placa:
+                        <input
+                            type="text"
+                            name="placa"
+                            value={carInfo.placa}
+                            onChange={handleInputChange}
+                            style={inputStyle}
+                        />
+                    </label>
+                    <label>
+                        Chassi:
+                        <input
+                            type="text"
+                            name="chassi"
+                            value={carInfo.chassi}
+                            onChange={handleInputChange}
+                            style={inputStyle}
+                        />
+                    </label>
+                    {/* <label>
+                        Ano de Fabricação:
+                        <input
+                            type="date"
+                            name="anofabricacao"
+                            value={carInfo.anofabricacao}
+                            onChange={handleInputChange}
+                            style={inputStyle}
+                        />
+                    </label> */}
+                    <label>
+                        Cor:
+                        <input
+                            type="text"
+                            name="cor"
+                            value={carInfo.cor}
+                            onChange={handleInputChange}
+                            style={inputStyle}
+                        />
+                    </label>
+                    <label>
+                        Marca:
+                        <input
+                            type="text"
+                            name="marca"
+                            value={carInfo.marca}
+                            onChange={handleInputChange}
+                            style={inputStyle}
+                        />
+                    </label>
+                    <label>
+                        Modelo:
+                        <input
+                            type="text"
+                            name="modelo"
+                            value={carInfo.modelo}
+                            onChange={handleInputChange}
+                            style={inputStyle}
+                        />
+                    </label>
+                    <label>
+                        Status:
+                        <input
+                            type="text"
+                            name="status"
+                            value={carInfo.status}
+                            onChange={handleInputChange}
+                            style={inputStyle}
+                        />
+                    </label>
+
+                    <button type="submit">{isEditing ? 'Savar' : 'Cadastrar'}</button>
+                    {isEditing && (
+                        <button type="button" onClick={handleDelete}>
+                            Deletar carro
+                        </button>
+                    )}
+                </form>
+            </div>
         </div>
     );
 }
 
-export default ProcessoDeLocacao;
+export default LocacaoPage;
