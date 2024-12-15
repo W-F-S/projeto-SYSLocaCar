@@ -97,3 +97,20 @@ INSERT INTO "veiculo" ("placa", "chassi", "anofabricacao", "cor", "marca", "mode
 ('VWX-5566', '1HGCM82633A321654', '2016-12-10', 'Branco', 'Kia', 'Cerato', 'manutencao', 'Inspeção nos freios agendada para fevereiro de 2024'),
 ('YZA-7788', '1HGCM82633A852963', '2020-06-30', 'Azul', 'Renault', 'Fluence', 'alugado', 'Sem problemas relatados'),
 ('BCD-9900', '1HGCM82633A963852', '2015-10-12', 'Vermelho', 'Peugeot', '308', 'disponivel', 'Bateria substituída em novembro de 2023');
+
+
+
+
+
+INSERT INTO "veiculo" ("placa", "chassi", "anofabricacao", "cor", "marca", "modelo", "status", "manutencao", "imagemPath") VALUES
+('ABC-1234', '1HGCM82633A123456', '2020-03-15', 'Preto', 'Toyota', 'Corolla', 'disponivel', 'Revisão feita em janeiro de 2024', 'car1.jpeg'),
+('DEF-5678', '1HGCM82633A654321', '2018-07-20', 'Branco', 'Honda', 'Civic', 'manutencao', 'Troca de óleo pendente', 'car2.png'),
+('GHI-9012', '1HGCM82633A789012', '2021-09-10', 'Cinza', 'Chevrolet', 'Cruze', 'alugado', 'Sem manutencao necessária no momento', 'car3.jpg'),
+('JKL-3456', '1HGCM82633A345678', '2019-11-05', 'Azul', 'Ford', 'Focus', 'disponivel', 'Troca de pneus feita em dezembro de 2023', 'car4.jpeg'),
+('MNO-7890', '1HGCM82633A567890', '2022-01-25', 'Vermelho', 'Volkswagen', 'Jetta', 'alugado', 'Sem observações de manutencao', 'car5.jpeg'),
+('PQR-1122', '1HGCM82633A987654', '2017-05-18', 'Prata', 'Hyundai', 'Elantra', 'disponivel', 'Alinhamento e balanceamento pendentes', 'car6.jpeg'),
+('STU-3344', '1HGCM82633A654987', '2023-04-01', 'Preto', 'Nissan', 'Sentra', 'disponivel', 'Novo veículo na frota, sem manutencao necessária', 'car7.jpeg'),
+('VWX-5566', '1HGCM82633A321654', '2016-12-10', 'Branco', 'Kia', 'Cerato', 'manutencao', 'Inspeção nos freios agendada para fevereiro de 2024', 'car8.jpg'),
+('YZA-7788', '1HGCM82633A852963', '2020-06-30', 'Azul', 'Renault', 'Fluence', 'alugado', 'Sem problemas relatados', 'car1.jpeg'),
+('BCD-9900', '1HGCM82633A963852', '2015-10-12', 'Vermelho', 'Peugeot', '308', 'disponivel', 'Bateria substituída em novembro de 2023', 'car2.png');
+

@@ -146,7 +146,7 @@ app.delete('/deleteCar', async (req: Request, res: Response) => {
     }
 });
 
-app.post('/newCar', (req: Request, res: Response)=>{
+app.post('/newCar', async (req: Request, res: Response)=>{
     const { placa, chassi, anofabricacao, cor, marca, modelo, status, imagemPath } = req.body;
 
     try {

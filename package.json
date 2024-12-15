@@ -6,9 +6,8 @@
   "homepage": "./",
   "proxy": "http://localhost:9090/",
   "scripts": {
-
     "server": "tsx server/src/app.ts",
-    "client": "cd client && react-scripts start",
+    "client": "cd client && react-scripts start"
   },
   "eslintConfig": {
     "extends": [
