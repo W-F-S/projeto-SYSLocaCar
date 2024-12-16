@@ -109,37 +109,6 @@ function LocacaoPage() {
         fontWeight: 'bold',
     };
 
-    useEffect(() => {
-        const fetchCarDetails = async () => {
-            try {
-
-                const response = await fetch('http://localhost:9090/getCar', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ carId: carId }), // Send car ID in the POST request body
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                setCarInfo(data.availableCars); // Set the car details in state
-
-                console.log(data);
-
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchCarDetails();
-    }, [carId]);
-
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -166,6 +135,10 @@ function LocacaoPage() {
 
             const method = isEditing ? 'PUT' : 'POST';
 
+
+            console.log(carInfo);
+
+            
             const response = await fetch(url, {
                 method,
                 headers: {

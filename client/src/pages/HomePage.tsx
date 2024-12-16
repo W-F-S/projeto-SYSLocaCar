@@ -113,7 +113,7 @@ function HomePage() {
         <div style={appStyle}>
             <header style={headerStyle}>
                 <h1 style={{ margin: '0', fontFamily: 'Arial, sans-serif', fontSize: '2.5rem', letterSpacing: '1px' }}>
-                    Sistema de cadastro de carros
+                    Nosso catálogo
                 </h1>
                 <nav style={navStyle}>
                     <div></div>
@@ -126,7 +126,7 @@ function HomePage() {
                     <Carousel></Carousel>
                 </div>
                 <div style={ctaStyle}>
-                    <BasicButton
+                    {/* <BasicButton
                         text="Contato"
                         onClick={() => alert('Contact form coming soon!')}
                         style={{
@@ -134,7 +134,7 @@ function HomePage() {
                             borderRadius: '30px',
 
                         }}
-                    />
+                    /> */}
                 </div>
             </div>
         </div>

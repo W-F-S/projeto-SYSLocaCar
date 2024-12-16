@@ -73,7 +73,7 @@ app.get('/getCar', async (req: Request, res: Response) => {
 
         const availableCar = await prisma.veiculo.findUnique({
             where: {
-                id: Number(carId), // Convert to number if needed
+                id: (carId), // Convert to number if needed
             },
         });
 
@@ -91,17 +91,28 @@ app.get('/getCar', async (req: Request, res: Response) => {
 
  app.put('/updateCar', async (req: Request, res: Response) => {
     try {
-        const { carId, carInfo } = req.body;
+        const carInfo = req.body;
+
+
+
+        console.log("nn\n\n\n\n\n\n\n\n\n");
+
+
+        console.log(req.body);
+        
+        console.log(carInfo);
+
 
         // Validate inputs
-        if (!carId || !carInfo) {
+        if (!carInfo) {
             return res.status(400).json({ error: 'Car ID and car information are required.' });
         }
+
 
         // Update the car information in the database
         const updatedCar = await prisma.veiculo.update({
             where: {
-                id: carId, // Ensure the ID exists
+                id: carInfo.id, // Ensure the ID exists
             },
             data: {
                 placa: carInfo.placa,
