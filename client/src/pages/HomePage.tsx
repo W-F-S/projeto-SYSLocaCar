@@ -118,7 +118,7 @@ function HomePage() {
                 <nav style={navStyle}>
                     <div></div>
                     {/* <BasicButton to="/login" text="Login"></BasicButton> */}
-                    <BasicButton to="/novocarro" text="Cadastrar novo veículo"></BasicButton>
+                    <BasicButton to="/locacao" text="Cadastrar novo veículo"></BasicButton>
                 </nav>
             </header>
             <div style={mainContentStyle}>
